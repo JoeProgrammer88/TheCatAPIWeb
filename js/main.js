@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 class CatImage {
 }
 function loadData() {
-    let url = "https://api.thecatapi.com/v1/images/search";
+    let url = "https://api.thecatapi.com/v1/images/search?limit=3";
     fetch(url)
         .then(function (response) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -20,10 +20,20 @@ function loadData() {
         });
     })
         .then(function (data) {
-        console.log(data);
-        let catImage = document.createElement("img");
-        catImage.src = data[0].url;
         let catDiv = document.getElementById("catImage");
-        catDiv.appendChild(catImage);
+        clearChildren("catImage");
+        console.log(data);
+        data.forEach(imageData => {
+            let catImage = document.createElement("img");
+            catImage.classList.add("catPicture");
+            catImage.src = imageData.url;
+            catDiv.appendChild(catImage);
+        });
     });
+}
+function clearChildren(id) {
+    let element = document.getElementById(id);
+    while (element.firstChild) {
+        element.removeChild(element.firstChild);
+    }
 }
